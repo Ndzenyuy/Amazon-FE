@@ -152,7 +152,7 @@ jobs:
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ steps.get-version.outputs.version }}
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
 
-  update-helm-chart:
+  update-kustomize:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
@@ -184,13 +184,13 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-          git clone git@github.com:Ndzenyuy/Amazon-FE-Infra.git
-          cd Amazon-FE-Infra
+          git clone git@github.com:Ndzenyuy/Amazon-Clone-infra.git
+          cd Amazon-Clone-Infra
 
 
           NEW_TAG=${{ steps.get-version.outputs.version }} 
-          sed -i "s/tag: .*/tag: $NEW_TAG/" amazon-clone/values.yaml
+          sed -i "s/newTag: .*/newTag: $NEW_TAG/" Kubernetes/kustomization.yaml
 
-          git add amazon-clone/values.yaml
+          git add Kubernetes/kustomization.yaml
           git commit -m "Update image tag to $NEW_TAG from Repo A CI"
           git push origin main
