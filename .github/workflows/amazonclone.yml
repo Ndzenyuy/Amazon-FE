@@ -45,16 +45,17 @@ jobs:
       - name: SonarCloud Scan
         run: |
           sonar-scanner \
-          -Dsonar.projectKey=amazon-fe-clone \
-          -Dsonar.organization=amazon-clone \
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+          -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
+          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
           -Dsonar.sources=src \
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
           -Dsonar.javascript.file.suffixes=.js,.jsx \
           -Dsonar.exclusions=**/node_modules/**,**/*.test.js,**/*.test.jsx,**/coverage/**,**/build/**,**/public/** \
           -Dsonar.test.inclusions=**/*.test.js,**/*.test.jsx,**/*.spec.js,**/*.spec.jsx \
           -Dsonar.coverage.exclusions=**/*.test.js,**/*.test.jsx,**/*.spec.js,**/*.spec.jsx,**/index.js,**/reportWebVitals.js \
-          -Dsonar.sourceEncoding=UTF-8 \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.sourceEncoding=UTF-8
 
       - name: Download OWASP Dependency Check
         run: |
