@@ -39,6 +39,9 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Setup SonarQube
+        uses: warchant/setup-sonar-scanner@v7
+
       - name: SonarCloud Scan
         run: |
           sonar-scanner \
@@ -51,7 +54,7 @@ jobs:
           -Dsonar.test.inclusions=**/*.test.js,**/*.test.jsx,**/*.spec.js,**/*.spec.jsx \
           -Dsonar.coverage.exclusions=**/*.test.js,**/*.test.jsx,**/*.spec.js,**/*.spec.jsx,**/index.js,**/reportWebVitals.js \
           -Dsonar.sourceEncoding=UTF-8 \
-          -Dsonar.login=$SONAR_TOKEN
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
       - name: Download OWASP Dependency Check
         run: |
